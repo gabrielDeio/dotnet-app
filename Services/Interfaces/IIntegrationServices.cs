@@ -4,5 +4,7 @@ namespace WebApplication2.Services;
 
 public interface IIntegrationServices
 {
-    Task<List<ClienteModel>> ObterDadosDeClientes();
+    Task<string> ObterDadosDeUrl(string url);
+    Task<List<ClienteModel>> ObterESalvarDadosClientes();
+    Task<List<ProdutoModel>> ObterESalvarDadosProdutos();
 }

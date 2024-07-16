@@ -15,10 +15,10 @@ public class IntegrationController : ControllerBase
        {
               _integrationServices = integrationServices;
        }
-       [HttpGet]
+       [HttpPost("/clientes")]
        public async Task<ActionResult<List<ClienteModel>>> ObterDadosDeClientes()
        {
-              List<ClienteModel> clientes = await _integrationServices.ObterDadosDeClientes();
+              List<ClienteModel> clientes = await _integrationServices.ObterESalvarDadosClientes();
 
               if (clientes == null)
               {
@@ -27,4 +27,19 @@ public class IntegrationController : ControllerBase
 
               return clientes;
        }
+
+       [HttpPost("/Produtos")]
+       public async Task<ActionResult<List<ProdutoModel>>> ObterDadosDeProdutos()
+       {
+              List<ProdutoModel> produtos = await _integrationServices.ObterESalvarDadosProdutos();
+
+              if (produtos == null)
+              {
+                     return BadRequest("Not found");
+              }
+
+              return produtos;
+       }
+       
+       
 }
