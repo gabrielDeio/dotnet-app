@@ -11,19 +11,23 @@
       <Compile Remove="Models\ProductModel.cs" />
       <Compile Remove="Controllers\ClienteControlle.cs" />
       <Compile Remove="Data\AppDBContex.cs" />
+      <Compile Remove="Integrations\**" />
     </ItemGroup>
 
     <ItemGroup>
       <EmbeddedResource Remove="Views\**" />
+      <EmbeddedResource Remove="Integrations\**" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Remove="Views\**" />
+      <Content Remove="Integrations\**" />
     </ItemGroup>
 
     <ItemGroup>
       <None Remove="Views\**" />
       <None Remove="Controllers\ClienteControlle.http" />
+      <None Remove="Integrations\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -48,6 +52,10 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="Refit" Version="7.1.2" />
+      <PackageReference Include="Refit.HttpClientFactory" Version="7.1.2" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     </ItemGroup>
 
 </Project>

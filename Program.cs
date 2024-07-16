@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Refit;
 using WebApplication2.Data;
 using WebApplication2.Repositories;
 using WebApplication2.Repositories.interfaces;
+using WebApplication2.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 DotNetEnv.Env.Load("./.env");
@@ -21,9 +23,17 @@ builder.Services.AddEntityFrameworkSqlServer()
         );
 
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddTransient<IntegrationServices>();
+builder.Services.AddTransient<ClienteServices>();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
