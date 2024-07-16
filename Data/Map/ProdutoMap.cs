@@ -9,6 +9,7 @@ public class ProdutoMap : IEntityTypeConfiguration<ProdutoModel>
     public void Configure(EntityTypeBuilder<ProdutoModel> builder)
     {
         builder.HasKey(x => x.IdProduto);
+        builder.Property(x => x.IdProduto).ValueGeneratedNever();
         builder.Property(x => x.DscProduto).IsRequired();
         builder.Property(x => x.VlrUnitario).IsRequired();
     }
