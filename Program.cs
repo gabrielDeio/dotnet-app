@@ -23,8 +23,10 @@ builder.Services.AddEntityFrameworkSqlServer()
         );
 
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddTransient<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddTransient<IntegrationServices>();
 builder.Services.AddTransient<ClienteServices>();
+builder.Services.AddTransient<ProdutoServices>();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
