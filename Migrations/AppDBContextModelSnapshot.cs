@@ -25,10 +25,7 @@ namespace WebApplication2.Migrations
             modelBuilder.Entity("WebApplication2.Models.ClienteModel", b =>
                 {
                     b.Property<int>("IdCliente")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCliente"));
 
                     b.Property<string>("Cidade")
                         .IsRequired()
@@ -48,10 +45,7 @@ namespace WebApplication2.Migrations
             modelBuilder.Entity("WebApplication2.Models.ProdutoModel", b =>
                 {
                     b.Property<int>("IdProduto")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdProduto"));
 
                     b.Property<string>("DscProduto")
                         .IsRequired()
@@ -68,18 +62,21 @@ namespace WebApplication2.Migrations
             modelBuilder.Entity("WebApplication2.Models.VendaModel", b =>
                 {
                     b.Property<int>("IdVenda")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdVenda"));
-
-                    b.Property<int>("ClienteId")
+                    b.Property<int>("ClienteIdCliente")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DthVenda")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ProdutoId")
+                    b.Property<int>("IdCliente")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdProduto")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProdutoIdProduto")
                         .HasColumnType("int");
 
                     b.Property<int>("QtdVenda")
@@ -90,9 +87,9 @@ namespace WebApplication2.Migrations
 
                     b.HasKey("IdVenda");
 
-                    b.HasIndex("ClienteId");
+                    b.HasIndex("ClienteIdCliente");
 
-                    b.HasIndex("ProdutoId");
+                    b.HasIndex("ProdutoIdProduto");
 
                     b.ToTable("Vendas");
                 });
@@ -101,13 +98,13 @@ namespace WebApplication2.Migrations
                 {
                     b.HasOne("WebApplication2.Models.ClienteModel", "Cliente")
                         .WithMany()
-                        .HasForeignKey("ClienteId")
+                        .HasForeignKey("ClienteIdCliente")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebApplication2.Models.ProdutoModel", "Produto")
                         .WithMany()
-                        .HasForeignKey("ProdutoId")
+                        .HasForeignKey("ProdutoIdProduto")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
