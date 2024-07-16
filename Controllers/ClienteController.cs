@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Models;
 using WebApplication2.Repositories.interfaces;
+using WebApplication2.Services;
 
 namespace WebApplication2.Controllers;
 
@@ -9,24 +10,24 @@ namespace WebApplication2.Controllers;
 [ApiController]
 public class ClienteController : ControllerBase
 {
-    private readonly IClienteRepository _clienteRepository;
+    private readonly IClienteServices _clienteServices;
 
-    public ClienteController(IClienteRepository clienteRepository)
+    public ClienteController(IClienteServices clienteServices)
     {
-        _clienteRepository = clienteRepository;
+        _clienteServices = clienteServices;
     }
     
     [HttpGet]
     public async Task<ActionResult<List<ClienteModel>>> ListarClientes()
     {
-        List<ClienteModel> clientes = await _clienteRepository.ListarClientes();
+        List<ClienteModel> clientes = await _clienteServices.ListarClientes();
         return Ok(clientes);
     }
 
     [HttpPost]
     public async Task<ActionResult<ClienteModel>> InserirCliente([FromBody] ClienteModel clienteModel)
     {
-        ClienteModel cliente = await _clienteRepository.InserirCliente(clienteModel);
+        ClienteModel cliente = await _clienteServices.InserirCliente(clienteModel);
 
         return Ok(cliente);
     }
@@ -35,7 +36,7 @@ public class ClienteController : ControllerBase
     public async Task<ActionResult<ClienteModel>> EditarCliente([FromBody] ClienteModel clienteModel, int id)
     {
         clienteModel.IdCliente = id;
-        ClienteModel cliente = await _clienteRepository.EditarCliente(clienteModel, id);
+        ClienteModel cliente = await _clienteServices.EditarCliente(clienteModel, id);
 
         return Ok(cliente);
     }
@@ -43,7 +44,7 @@ public class ClienteController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult<bool>> ExcluirCliente(int id)
     {
-        bool result = await _clienteRepository.ExcluirCliente(id);
+        bool result = await _clienteServices.ExcluirCliente(id);
 
         return Ok(result);
     }
