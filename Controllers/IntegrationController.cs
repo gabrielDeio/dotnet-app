@@ -9,9 +9,9 @@ namespace WebApplication2.Controllers;
 [ApiController]
 public class IntegrationController : ControllerBase
 {
-       private readonly IntegrationServices _integrationServices;
+       private readonly IIntegrationServices _integrationServices;
 
-       public IntegrationController(IntegrationServices integrationServices)
+       public IntegrationController(IIntegrationServices integrationServices)
        {
               _integrationServices = integrationServices;
        }
