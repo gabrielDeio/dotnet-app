@@ -24,9 +24,11 @@ builder.Services.AddEntityFrameworkSqlServer()
 
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddTransient<IProdutoRepository, ProdutoRepository>();
-builder.Services.AddTransient<IntegrationServices>();
-builder.Services.AddTransient<ClienteServices>();
-builder.Services.AddTransient<ProdutoServices>();
+builder.Services.AddTransient<IVendaRepository, VendaRepository>();
+builder.Services.AddScoped<IVendaServices, VendaServices>();
+builder.Services.AddScoped<IIntegrationServices, IntegrationServices>();
+builder.Services.AddScoped<IClienteServices, ClienteServices>();
+builder.Services.AddScoped<IProdutoServices, ProdutoServices>();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
