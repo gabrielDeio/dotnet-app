@@ -40,6 +40,12 @@ public class VendaRepository : IVendaRepository
             throw new InvalidOperationException($"Produto com Id {vendaModel.IdProduto} não encontrado.");
         }
 
+        var vendaExistente = await _dbContext.Vendas.AnyAsync(c => c.IdVenda == vendaModel.IdVenda);
+        if(vendaExistente)
+        {
+            throw new InvalidOperationException($"Venda com Id {vendaModel.IdVenda} já existe.");
+        }
+
         await _dbContext.Vendas.AddAsync(vendaModel);
         await _dbContext.SaveChangesAsync();
 

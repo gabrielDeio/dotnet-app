@@ -25,6 +25,11 @@ public class ClienteRepository : IClienteRepository
     
     public async Task<ClienteModel> InserirCliente(ClienteModel cliente)
     {
+        var clienteExistente = await _dbContext.Clientes.AnyAsync(c => c.IdCliente == cliente.IdCliente);
+        if(clienteExistente)
+        {
+            throw new InvalidOperationException($"Cliente com Id {cliente.IdCliente} já existe.");
+        }
         await _dbContext.Clientes.AddAsync(cliente);
         await _dbContext.SaveChangesAsync();
 

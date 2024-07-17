@@ -27,6 +27,11 @@ public class ProdutoRepository : IProdutoRepository
 
     public async Task<ProdutoModel> InserirProduto(ProdutoModel produto)
     {
+        var produtoExistente = await _dbContext.Produtos.AnyAsync(c => c.IdProduto == produto.IdProduto);
+        if(produtoExistente)
+        {
+            throw new InvalidOperationException($"Produto com Id {produto.IdProduto} já existe.");
+        }
         await _dbContext.Produtos.AddAsync(produto);
         await _dbContext.SaveChangesAsync();
 
