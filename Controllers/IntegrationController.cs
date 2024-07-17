@@ -40,6 +40,17 @@ public class IntegrationController : ControllerBase
 
               return produtos;
        }
-       
-       
+
+       [HttpPost("/Vendas")]
+       public async Task<ActionResult<List<VendaModel>>> ObterDadosDeVendas()
+       {
+              List<VendaModel> vendas = await _integrationServices.ObterESalvarDadosVendas();
+
+              if (vendas == null)
+              {
+                     return BadRequest("Not found");
+              }
+
+              return vendas;
+       }
 }

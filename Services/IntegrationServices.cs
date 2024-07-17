@@ -8,13 +8,15 @@ namespace WebApplication2.Services;
 
 public class IntegrationServices : IIntegrationServices
 {
-    private readonly ClienteServices _clienteServices;
-    private readonly ProdutoServices _produtoServices;
+    private readonly IClienteServices _clienteServices;
+    private readonly IProdutoServices _produtoServices;
+    private readonly IVendaServices _vendaServices;
 
-    public IntegrationServices(ClienteServices clienteServices, ProdutoServices produtoServices)
+    public IntegrationServices(IClienteServices clienteServices, IProdutoServices produtoServices, IVendaServices vendaServices)
     {
         _clienteServices = clienteServices;
         _produtoServices = produtoServices;
+        _vendaServices = vendaServices;
     }
     public async Task<string> ObterDadosDeUrl(string url)
     {
@@ -64,6 +66,13 @@ public class IntegrationServices : IIntegrationServices
 
         return produtosInseridos;
     }
-    
-    
+
+    public async Task<List<VendaModel>> ObterESalvarDadosVendas()
+    {
+        string jsonString = await ObterDadosDeUrl("https://camposdealer.dev/Sites/TesteAPI/venda");
+        var jsonObject = JsonConvert.DeserializeObject<List<VendaModel>>(jsonString);
+        List<VendaModel> vendasInseridas = await _vendaServices.InserirListaDeVendas(jsonObject);
+
+        return vendasInseridas; 
+    }
 }
