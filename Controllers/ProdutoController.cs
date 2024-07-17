@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Models;
 using WebApplication2.Services;
+
 
 [Route("api/[controller]")]
 [ApiController]
@@ -19,6 +19,7 @@ public class ProdutoController : ControllerBase
     public async Task<ActionResult<List<ProdutoModel>>> ListarProdutos()
     {
         List<ProdutoModel> produtos = await _produtoServices.ListarProdutos();
+        
         return Ok(produtos);
     }
 
