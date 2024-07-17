@@ -18,6 +18,7 @@ public class AppDBContext : DbContext
     {
         modelBuilder.ApplyConfiguration(new ClienteMap());
         modelBuilder.ApplyConfiguration(new ProdutoMap());
+        modelBuilder.ApplyConfiguration(new VendaMap());
         base.OnModelCreating(modelBuilder);
     }
 }
