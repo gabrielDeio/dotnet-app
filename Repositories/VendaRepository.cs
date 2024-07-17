@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
 using WebApplication2.Models;
+using WebApplication2.Repositories.interfaces;
 
 namespace WebApplication2.Repositories;
 
-public class VendaRepository
+public class VendaRepository : IVendaRepository
 {
     private readonly AppDBContext _dbContext;
 
@@ -15,16 +16,30 @@ public class VendaRepository
     
     public async Task<List<VendaModel>> ListarVendas()
     {
-        return await _dbContext.Vendas.ToListAsync();
+        return await _dbContext.Vendas
+            .Include(v => v.Cliente)
+            .Include(v => v.Produto)
+            .ToListAsync();
     }
 
     public async Task<VendaModel> BuscarVenda(int id)
     {
-        return await _dbContext.Vendas.FirstOrDefaultAsync(x => x.IdCliente == id);
+        return await _dbContext.Vendas.FirstOrDefaultAsync(x => x.IdVenda == id);
     }
 
     public async Task<VendaModel> InserirVenda(VendaModel vendaModel)
     {
+        var clienteExistente = await _dbContext.Clientes.AnyAsync(c => c.IdCliente == vendaModel.IdCliente);
+        if(!clienteExistente)
+        {
+            throw new InvalidOperationException($"Cliente com Id {vendaModel.IdCliente} não encontrado.");
+        }
+        var produtoExistente = await _dbContext.Produtos.AnyAsync(c => c.IdProduto == vendaModel.IdProduto);
+        if(!produtoExistente)
+        {
+            throw new InvalidOperationException($"Produto com Id {vendaModel.IdProduto} não encontrado.");
+        }
+
         await _dbContext.Vendas.AddAsync(vendaModel);
         await _dbContext.SaveChangesAsync();
 
@@ -37,7 +52,7 @@ public class VendaRepository
 
         if(venda == null)
         {
-            throw new Exception($"Produto com ID : {id} não encontrado");
+            throw new Exception($"Venda com ID : {id} não encontrado");
         }
 
         venda.IdCliente = vendaModel.IdCliente;
@@ -57,7 +72,7 @@ public class VendaRepository
 
         if(venda == null)
         {
-            throw new Exception($"Produto com ID : {id} não encontrado");
+            throw new Exception($"Venda com ID : {id} não encontrado");
         }
 
         _dbContext.Vendas.Remove(venda);

@@ -12,15 +12,16 @@ public class VendaModel
     public int IdVenda { get; set; }
     
     public int IdCliente { get; set; }
-    public virtual ClienteModel Cliente { get; set; } 
+    public virtual  ClienteModel? Cliente { get; set; } 
     
     public int IdProduto { get; set; }
-    public virtual ProdutoModel Produto { get; set; }
+    public virtual ProdutoModel? Produto { get; set; }
     public int QtdVenda { get; set; }
     public float VlrUnitarioVenda { get; set; }
     public DateTime DthVenda { get; set; }
 
-    public float VlrTotalVenda
+    [NotMapped]
+    public float ?VlrTotalVenda
     {
         get
         {

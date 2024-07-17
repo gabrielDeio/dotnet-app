@@ -12,13 +12,20 @@ public class VendaMap : IEntityTypeConfiguration<VendaModel>
         builder.Property(x => x.IdVenda).ValueGeneratedNever();
         builder.Property(x => x.DthVenda).IsRequired();
         builder.Property(x => x.QtdVenda).IsRequired();
-        builder.Property(x => x.VlrTotalVenda).IsRequired();
+        builder.Ignore(x => x.VlrTotalVenda);
         builder.Property(x => x.VlrUnitarioVenda).IsRequired();
-        builder.Property(x => x.IdCliente).IsRequired();
-        builder.Property(x => x.IdProduto);
+        builder.Property(x => x.IdCliente).IsRequired().HasColumnName("IdCliente");
+        builder.Property(x => x.IdProduto).HasColumnName("IdProduto");
 
-        builder.HasOne(x => x.Cliente);
-        builder.HasOne(x => x.Produto);
+        builder.HasOne(x => x.Cliente)
+            .WithMany()
+            .HasForeignKey(x => x.IdCliente)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(x => x.Produto)
+            .WithMany()
+            .HasForeignKey(x => x.IdProduto)
+            .OnDelete(DeleteBehavior.Restrict);
         
     }
 }
